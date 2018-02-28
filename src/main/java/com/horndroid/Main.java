@@ -24,6 +24,8 @@
 
 package com.horndroid;
 
+import java.nio.file.Paths;
+
 import com.horndroid.analysis.Stubs;
 import com.horndroid.exceptions.ReportWritingException;
 import com.horndroid.executors.HorndroidExecutor;
@@ -43,7 +45,7 @@ public class Main {
     public static final String COMMAND_EXPECTED = "java -jar fshorndroid-version.jar [options] '/' '%apktool%/' '<apk-file>'";
     public static final String APKTOOL_JAR = "apktool.jar";
     private static final org.apache.commons.cli.Options options;
-    private static final Logger LOGGER = LogManager.getLogger(Main.class);
+    private static Logger LOGGER;
     private static Options hornDroidOptions = new Options();
     private static String APK_TOOL_DIR_PATH = "";
     private static String INPUT_APK_PATH = "";
@@ -68,6 +70,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws ReportWritingException {
+	System.setProperty("logFilename", Paths.get(args[args.length-1]).getFileName().toString()); 
+	LOGGER = LogManager.getLogger(Main.class);
         parseCommandLine(args);
         configuration();
 
